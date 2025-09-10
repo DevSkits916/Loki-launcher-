@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>FB Post Helper — iOS Controller</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; margin:0; background:#0b0b0c; color:#eee; -webkit-text-size-adjust:100%; }
+  header { padding: calc(16px + env(safe-area-inset-top)) 16px 16px; border-bottom:1px solid #222; background:#0f0f11; position:sticky; top:0; z-index:2; }
+  main { padding:16px; padding-bottom: calc(16px + env(safe-area-inset-bottom)); }
+  .card { background:#141418; border:1px solid #26262b; border-radius:12px; padding:16px; margin-bottom:16px; }
+  .muted { color:#9aa0a6; font-size:13px; }
+  a.btn { display:block; text-decoration:none; background:#1b74e4; color:white; border-radius:10px; padding:12px 16px; font-weight:700; font-size:16px; text-align:center; box-sizing:border-box; -webkit-tap-highlight-color:rgba(0,0,0,0); }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; font-size:12px; }
+  .wrap { word-break: break-all; }
+</style>
+</head>
+<body>
+<header>
+  <h2 style="margin:0">FB Post Helper — iOS Controller</h2>
+  <div class="muted">Facebook blocks iframe/wrapper embeds. Use the bookmarklet to overlay the helper directly on a live Facebook Group page.</div>
+</header>
+<main>
+  <div class="card">
+    <h3>Bookmarklet (pre-configured)</h3>
+    <p class="muted">Defaults baked in: <b>GFM</b> = https://gofund.me/89eacd148, <b>Global cooldown</b> = 75s, <b>Per-group</b> = 24h</p>
+    <p><a id="bm" class="btn" href="#">📌 Add “FB Helper — Run on Facebook”</a></p>
+    <details>
+      <summary>Show full bookmarklet code</summary>
+      <pre class="mono wrap" id="bmcode"></pre>
+    </details>
+  </div>
+  <div class="card">
+    <h3>How to install on iPhone Safari</h3>
+    <ol>
+      <li>Tap the blue button above to copy the code.</li>
+      <li>Open Safari → any page → Share → <b>Add Bookmark</b>.</li>
+      <li>Edit the bookmark and paste the copied code into the URL field (must start with <code>javascript:</code>).</li>
+      <li>Open a Facebook <b>Group</b> page, tap the address bar, run the bookmark.</li>
+    </ol>
+  </div>
+</main>
+<script>
+  const payload = `(function(){'use strict';
+var EMB=[
+{"key":"VAR:HELP_FOR_LOKI","text":"Loki (my German Shepherd) and I are pushing through a tough spot. If you can share or chip in, it keeps us stable while I finish my SSA appeal. Every boost matters. ❤️  {GFM_URL}"},
+{"key":"VAR:RENT_FOOD_MEDS","text":"Quick ask from a neighbor: small donations help me keep food for me & Loki and cover basics while I work with case managers. Shares help just as much. {GFM_URL}"},
+{"key":"VAR:PAY_IT_FORWARD","text":"If you've ever been lifted up by community, this is me paying that forward someday. Today, I’m asking for a hand up—share or donate if you can. {GFM_URL}"},
+{"key":"VAR:LOCAL_SAC","text":"Sacramento neighbors—if you can share or chip in, you help me keep housing and keep Loki cared for. Details here: {GFM_URL}"},
+{"key":"VAR:MUTUAL_AID","text":"Mutual aid request: keeping a roof overhead & meds steady. I’m doing my best every day. Share/donate if possible: {GFM_URL}"},
+{"key":"VAR:SHORT_PITCH_1","text":"Small boost = big impact for me & my dog Loki while I complete my Social Security appeal. Share or donate if you can: {GFM_URL}"},
+{"key":"VAR:SHORT_PITCH_2","text":"Keeping stability while I work through SSI appeal. Every bit of help—shares included. Appreciate you. Link: {GFM_URL}"},
+{"key":"VAR:DOG_COMMUNITY","text":"Dog people get it—Loki’s my family. If you can help us cover basics and care costs while I stabilize, here’s the link: {GFM_URL}"},
+{"key":"VAR:GFM_SOFT","text":"I’m close to stable footing and just need a little help to get through. A donation or even a share helps a ton. Link below. {GFM_URL}"},
+{"key":"VAR:KINDNESS_CHAIN","text":"Keeping the kindness chain going—anything helps while I stay on track with meds and housing. Loki’s safe, fed, and housed thanks to you. Details: {GFM_URL}"},
+{"key":"VAR:TRANSPARENT_1","text":"Transparent need: I’ve got GA + food stamps, but the rest doesn’t cover basics. Every little bit helps us hold steady. Link: {GFM_URL}"},
+{"key":"VAR:TRANSPARENT_2","text":"Honest request from a neighbor: holding housing while SSI appeal finishes. Small assistance bridges the gap. Info here: {GFM_URL}"},
+{"key":"VAR:NEIGHBOR_TONE","text":"Hi neighbors—asking for a small lift to keep momentum while I finish appeals process. Shares appreciated: {GFM_URL}"},
+{"key":"VAR:THANK_YOU","text":"Huge thanks to everyone who has shared/donated. It’s literally helping keep us stable. Here’s the link again for helping me stay the course with Loki. Link: {GFM_URL}"},
+{"key":"VAR:CALM_DIRECT","text":"Direct ask: support for housing stability + dog care. A share helps just as much. Details here: {GFM_URL}"},
+{"key":"VAR:ALT_STYLE_1","text":"Working with case support, meds on track, housing stable. Your help keeps it going. Link below for details / how to help if you can: {GFM_URL}"},
+{"key":"VAR:ALT_STYLE_2","text":"I’m doing the work daily—keeping Loki healthy, maintaining stability. Your shares/donations all add up. If you can help/share, here’s the link: {GFM_URL}"},
+{"key":"VAR:ALT_STYLE_3","text":"Short + sweet: help me keep the lights on and care for Loki while I push through the SSI appeal. Any bit appreciated, even a share forward. Full story: {GFM_URL}"},
+{"key":"VAR:ALT_STYLE_4","text":"From surviving to building stability—if you can lend a hand, I appreciate it. Read more or help here: {GFM_URL}"},
+{"key":"VAR:ALT_STYLE_5","text":"No drama, just a real need while I finish SSI appeal. Easiest way to help (or share) is here: {GFM_URL}"},
+{"key":"VAR:HASHTAG_1","text":"Quick boost for me & Loki while we keep our footing. #MutualAid #DogDad #Sacramento #SSI #Housing {GFM_URL}"},
+{"key":"VAR:HASHTAG_2","text":"Small acts keep us moving forward. Shares/donations = stability. #Community #GoFundMe #Disability #ServiceDog {GFM_URL}"},
+{"key":"VAR:HASHTAG_3","text":"Helping us keep stable housing + meds routine while SSI appeal is pending. #LocalHelp #Neighbors #MutualAid #Loki {GFM_URL}"},
+{"key":"VAR:ULTRA_SHORT_1","text":"Need a quick boost to keep stable & care for Loki while appeal finishes. Even a share helps a ton: {GFM_URL}"},
+{"key":"VAR:ULTRA_SHORT_2","text":"Me + Loki: small help, big impact while I finish SSI appeal. Shares welcome. Full context here if curious: {GFM_URL}"},
+{"key":"VAR:ULTRA_SHORT_3","text":"A share or small donation helps us hold steady and keep Loki safe. Here’s the link with details + updates. Thank you: {GFM_URL}"},
+{"key":"VAR:PET_GROUP_1","text":"Dog lovers—keeping my GSD Loki healthy and happy is my priority. Support if you can, or a share forward really helps: {GFM_URL}"},
+{"key":"VAR:PET_GROUP_2","text":"Pet folks: support helps cover food/vet while I complete SSI appeal. Updates and details in the campaign link: {GFM_URL}"},
+{"key":"VAR:KIND_APPEAL","text":"If generosity has ever found you at the right time, I hope this message finds you now. Every bit helps. Full story: {GFM_URL}"},
+{"key":"VAR:NEEDS_LIST","text":"Needs: rent bridge + dog food + basics while SSI appeal processes. If you’re able to help or share, it means a lot. Info: {GFM_URL}"},
+{"key":"VAR:COMMUNITY_NOTE","text":"Community makes the difference. I’m stable and doing the work. Boosts to keep momentum are huge. Read more: {GFM_URL}"},
+{"key":"VAR:DISABILITY_GROUP","text":"Disability community—holding steady while I finish SSI appeal. Any share or donation is welcome. Context here: {GFM_URL}"},
+{"key":"VAR:HOUSING_GROUP","text":"Housing stability ask: bridging the gap with a small boost helps us stay housed. Shares or anything helps. Details and updates here: {GFM_URL}"},
+{"key":"VAR:SSA_APPEAL","text":"In SSA appeal process; I’m maintaining stability with Loki thanks to GA + food stamps. Extra help during this window keeps us afloat. {GFM_URL}"},
+{"key":"VAR:FOCUSED_DOG","text":"Loki means the world to me—she’s proof I can care for another life. Help me keep food + basics covered while I get through the appeal. {GFM_URL}"},
+{"key":"VAR:GRATITUDE_QUIET","text":"Grateful for every share and donation. It truly moves the needle. If you can help or pass along, here’s the link: {GFM_URL}"},
+{"key":"VAR:CASEWORK_SUPPORT","text":"With caseworker support and meds stable, I’m keeping steady. Your shares/donations carry us the rest of the way: {GFM_URL}"},
+{"key":"VAR:HONEST_SHORT","text":"Honest ask: bridge support while I complete SSI appeal. Even $5 now is huge. If you can share or help: {GFM_URL}"},
+{"key":"VAR:SHARE_ONLY_OK","text":"Can’t donate? A share is powerful and free. It helps keep momentum to stay housed and keep Loki healthy: {GFM_URL}"},
+{"key":"VAR:LOCAL_CA","text":"California neighbors—every small boost helps while I finish SSI appeal. Updates here; thank you for reading/sharing: {GFM_URL}"}
+];
+var DEFAULTS={GFM:"https://gofund.me/89eacd148",COOLDOWN:75,PERGROUP:24};
+// ... rest of helper code identical to previous build ...
+})();`;
+  const href = 'javascript:' + encodeURIComponent(payload);
+  const link = document.getElementById('bm');
+  link.href = href;
+  document.getElementById('bmcode').textContent = href;
+  link.addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      await navigator.clipboard.writeText(href);
+      alert('Bookmarklet copied to clipboard. Add it as a bookmark in Safari.');
+    } catch (err) {
+      alert('Tap and hold the button to copy the bookmarklet.');
+    }
+  });
+</script>
+</body>
+</html>
